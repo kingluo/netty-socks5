@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
+}
+
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'io.netty', name: 'netty-all', version: '4.1.25.Final'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.8.0-beta2'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.11.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.11.0'
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
+	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.9.6'
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+}
+
+test.outputs.upToDateWhen { false }
+
+shadowJar {
+    manifest {
+        attributes "Main-Class": "foo.bar.Socks5Server"
+    }
+    relocate 'io.netty', 'shadow.io.netty'
+}
